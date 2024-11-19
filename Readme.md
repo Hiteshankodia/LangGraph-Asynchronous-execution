@@ -1,9 +1,29 @@
-In production grade application we want to run the task parallely to save the time. 
-Here we dot need to use packages like asynvc IO or IF multitreading beacuse langgraph will handle everything for us. 
+**🚀 Parallel Task Execution in Production**
+In a production-grade application, running tasks in parallel is crucial to saving time and improving performance. Thankfully, LangGraph handles task execution efficiently, so you don’t need to worry about manually implementing asynchronous techniques like asyncio or multithreading.
 
-There can be drawback for using asynchronous execution of nodes, and one of them is state config. 
-Here nodes that modify the same attribute in the state can potentially each others changes, so this will lead to inconsistent and unexpected results and potentially can lead to race conditions. 
+However, while LangGraph optimizes parallel execution for you, there are some important considerations to keep in mind to avoid issues such as data inconsistency and race conditions.
 
-and can lead to data inconsistencies, and also debugging asynchronously. 
 
-The best practice for using asynchronous execution of nodes is to isolate the state updates. So each node should write to a different attribute in the state to aviod those conflicts .
+**⚠️ Challenges with Asynchronous Execution of Nodes**
+When executing tasks asynchronously, there are certain drawbacks to be aware of, especially regarding state configuration:
+
+**State Conflicts:**
+Nodes that modify the same attribute in the state could potentially overwrite each other's changes, leading to inconsistent results.
+**Race Conditions:**
+Asynchronous execution can result in race conditions, where multiple nodes may try to modify the same data concurrently, causing unpredictable behavior.
+**Data Inconsistencies:**
+Modifying shared state asynchronously without proper management can lead to data inconsistency, making the system harder to debug and maintain.
+
+
+**🛠️ Best Practices for Asynchronous Node Execution**
+To safely use asynchronous execution in LangGraph, it’s important to isolate state updates to avoid conflicts:
+
+**Isolate State Updates:**
+Each node should update a separate attribute in the state to ensure that no two nodes modify the same data concurrently.
+
+**Avoid Shared State:**
+If multiple nodes must update the same attribute, consider using a locking mechanism or ensuring that only one node can access the state at a time to prevent data corruption.
+
+By following these best practices, you can ensure smooth asynchronous execution and avoid issues like race conditions, state conflicts, and data inconsistencies.
+
+
